@@ -84,4 +84,4 @@ nppes_data.csv
 
 # ---------- Sensitive docs ----------
 # Internal case studies — not for public/shared repos
-Docs/case-study/
+.docs/case-study/

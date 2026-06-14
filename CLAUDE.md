@@ -41,10 +41,10 @@
 
 - `/tldr` — TLDR explanation of a concept. No code changes, no Git.
 - `/mentor` — Deep teaching session based on what we discussed. No code changes, no Git.
-- `/take-notes` — Create a markdown note in the `/Notes` folder. No code changes, no Git.
+- `/take-notes` — Create a markdown note in the `/.docs/Notes/` folder. No code changes, no Git.
 - `/brainstorm` — Senior engineer brainstorm mode with web research. No code changes, no Git.
-- `/blog` — Document the session as a professional engineering blog entry, saved to `/Docs/case-study/`.
+- `/blog` — Document the session as a professional engineering blog entry, saved to `/.docs/case-study/`.
 
 ## Notes Folder
 
-All session notes live in `/Notes/`. Files are markdown, named descriptively in kebab-case.
+All session notes live in `/.docs/Notes/`. Files are markdown, named descriptively in kebab-case.
