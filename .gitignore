@@ -1,0 +1,87 @@
+# ---------- Secrets ----------
+# Never commit real secrets. .env.example IS committed (it's the template).
+.env
+.env.local
+.env.*.local
+credentials/
+*.pem
+*.key
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Packaging / build artifacts
+build/
+dist/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
+
+# ---------- Django ----------
+# Local DB files (we use Postgres in Docker, but ignore sqlite just in case)
+*.sqlite3
+db.sqlite3
+db.sqlite3-journal
+
+# collectstatic output and uploaded media
+staticfiles/
+static_collected/
+media/
+
+# Django local overrides
+local_settings.py
+
+# ---------- Celery ----------
+celerybeat-schedule
+celerybeat-schedule.db
+celerybeat.pid
+
+# ---------- Testing & coverage ----------
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.tox/
+.nox/
+coverage.xml
+*.cover
+
+# ---------- Logs ----------
+*.log
+logs/
+
+# ---------- IDE / editor ----------
+.vscode/
+.idea/
+.cursor/
+*.swp
+*.swo
+*~
+
+# ---------- macOS ----------
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ---------- Claude Code session state ----------
+.claude/
+
+# ---------- Data files (large, regenerable) ----------
+# The NPPES CSV is 7GB — never commit it
+data/
+*.csv.zip
+nppes_data.csv
+
+# ---------- Sensitive docs ----------
+# Internal case studies — not for public/shared repos
+Docs/case-study/
