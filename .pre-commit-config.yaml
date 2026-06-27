@@ -1,0 +1,27 @@
+# Pre-commit hooks for Sova.
+#
+# Runs automatically on `git commit`. Currently we only enforce one thing:
+# gitleaks, a secret scanner that blocks commits containing API keys, tokens,
+# private keys, AWS credentials, etc.
+#
+# To install:
+#   brew install gitleaks
+#   pip install pre-commit
+#   pre-commit install
+#
+# To run all hooks manually against the working tree:
+#   pre-commit run --all-files
+#
+# To bypass hooks for a single commit (dangerous — don't make a habit):
+#   git commit --no-verify
+#
+# To update hook versions to latest:
+#   pre-commit autoupdate
+
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.21.2
+    hooks:
+      - id: gitleaks
+        name: Scan for committed secrets
+        description: Detect API keys, tokens, and credentials before they enter git history

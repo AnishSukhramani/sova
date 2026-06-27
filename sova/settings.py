@@ -14,6 +14,7 @@ Customized from `django-admin startproject` defaults:
 For details on individual settings: https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import logging
 import os
 from datetime import timedelta
 from pathlib import Path
@@ -177,12 +178,22 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'orchestrator.tasks.recompute_all_lead_scores',
         'schedule': crontab(hour=2, minute=0),
     },
+    'google-places-daily': {
+        'task': 'collectors.tasks.practice_data.google_places_batch',
+        'schedule': crontab(hour=3, minute=0),
+    },
 }
 
 
 # ---------- API key authentication ----------
 # Shared-secret API key. Clients send X-API-Key header.
 SOVA_API_KEY = os.getenv('SOVA_API_KEY', '')
+
+
+# ---------- External data-source API keys ----------
+# Collectors read these from Django settings. Missing keys cause the relevant
+# collector to log a warning and return 0 records (no crash).
+GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY', '')
 
 
 # ---------- REST framework ----------
@@ -221,6 +232,19 @@ if SENTRY_DSN:
         traces_sample_rate=0.1,
         send_default_pii=False,
     )
+
+
+# ---------- Log scrubbing for noisy clients ----------
+# httpx logs the full request URL at INFO level. Some providers (Google Maps,
+# RapidAPI, etc.) put API keys in query strings — those keys would land in
+# stdout, Sentry, and any log aggregator. Silence INFO-and-below for httpx
+# and httpcore; WARNING-and-above still surfaces real problems.
+#
+# Trade-off: you lose the "this URL was called" debug breadcrumb in dev. If
+# you genuinely need it for a one-off investigation, set the level back to
+# logging.INFO temporarily (and rotate the key after you're done).
+for _noisy_logger in ('httpx', 'httpcore'):
+    logging.getLogger(_noisy_logger).setLevel(logging.WARNING)
 
 
 # ---------- LangSmith (LangChain observability) ----------

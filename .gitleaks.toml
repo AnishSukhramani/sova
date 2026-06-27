@@ -1,0 +1,30 @@
+# Sova gitleaks configuration.
+#
+# By default, gitleaks ships with rules that catch common secret patterns
+# (API keys, tokens, AWS credentials, etc.). We extend those defaults with
+# a project-specific allowlist for known false positives.
+#
+# Add new exceptions sparingly. The whole point of gitleaks is to make
+# accidental commits painful — every entry here is a small hole in the net.
+
+title = "Sova"
+
+[extend]
+useDefault = true
+
+# ---------- Global allowlist ----------
+# Strings that look like secrets but are documented as not-real.
+# Gitleaks skips findings whose matched text contains any of these regexes.
+[allowlist]
+description = "Known false positives"
+regexes = [
+    # The dev SOVA_API_KEY value. Literally suffixed "-change-in-production" —
+    # documented as a placeholder. Real prod value generated separately and
+    # never committed.
+    '''sova-dev-key-change-in-production''',
+
+    # An expired AWS STS token (ASIA-prefixed = short-lived, max 36h lifetime).
+    # Embedded in a Perplexity research-result URL captured in
+    # .docs/research/perplexity.md. Not our token, expired weeks ago.
+    '''ASIA2F3EMEYEXE7PR6WM''',
+]
